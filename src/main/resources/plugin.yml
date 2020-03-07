@@ -1,0 +1,9 @@
+name: MCInventory
+main: org.unixminecraft.mcinventory.bukkit.MCInventory
+version: 0.0.1
+author: unixminecraft
+api-version: 1.15
+
+commands:
+  inventory:
+    description: Perform the inventory commands.
