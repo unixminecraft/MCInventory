@@ -52,6 +52,7 @@ public final class MCInventory extends JavaPlugin implements Listener {
 	
 	private HashSet<UUID> preSelectedPlayers;
 	private ConcurrentHashMap<UUID, Villager> selectedVillager;
+	private ConcurrentHashMap<Villager, VillagerInventory> villagerInventories;
 	private ConcurrentHashMap<UUID, VillagerInventory> openedVillagerInventories;
 	
 	@Override
@@ -63,6 +64,7 @@ public final class MCInventory extends JavaPlugin implements Listener {
 		
 		preSelectedPlayers = new HashSet<UUID>();
 		selectedVillager = new ConcurrentHashMap<UUID, Villager>();
+		villagerInventories = new ConcurrentHashMap<Villager, VillagerInventory>();
 		openedVillagerInventories = new ConcurrentHashMap<UUID, VillagerInventory>();
 		
 		getServer().getPluginManager().registerEvents(this, this);
@@ -192,7 +194,17 @@ public final class MCInventory extends JavaPlugin implements Listener {
 						return true;
 					}
 					
-					final VillagerInventory villagerInventory = new VillagerInventory(selectedVillager.get(playerId));
+					final Villager villager = selectedVillager.get(playerId);
+					final VillagerInventory villagerInventory;
+					
+					if(!villagerInventories.containsKey(villager)) {
+						villagerInventory = new VillagerInventory(villager);
+						villagerInventories.put(villager, villagerInventory);
+					}
+					else {
+						villagerInventory = villagerInventories.get(villager);
+					}
+					
 					villagerInventory.openInventory(player);
 					
 					openedVillagerInventories.put(playerId, villagerInventory);
@@ -303,8 +315,12 @@ public final class MCInventory extends JavaPlugin implements Listener {
 		if(!openedVillagerInventories.containsKey(playerId)) {
 			return;
 		}
+				
+		if(openedVillagerInventories.get(playerId).closeInventory()) {
+			villagerInventories.remove(selectedVillager.get(playerId));
+		}
 		
-		openedVillagerInventories.get(playerId).closeInventory(player);
+		openedVillagerInventories.remove(playerId);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)

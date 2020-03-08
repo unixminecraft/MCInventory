@@ -5,7 +5,7 @@
   <groupId>org.unixminecraft.mcinventory.bukkit</groupId>
   <artifactId>MCInventory-Bukkit</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <name>MCInventory-Bukkit</name>
   
   <url>http://maven.apache.org</url>

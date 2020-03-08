@@ -42,11 +42,17 @@ final class VillagerInventory {
 		return player.openInventory(villagerInventory);
 	}
 	
-	void closeInventory(final Player player) {
+	boolean closeInventory() {
+		
+		if(!villagerInventory.getViewers().isEmpty()) {
+			return false;
+		}
 		
 		final Inventory inventory = villager.getInventory();
 		for(int index = 0; index < inventory.getSize(); index++) {
 			inventory.setItem(index, villagerInventory.getItem(index));
 		}
+		
+		return true;
 	}
 }

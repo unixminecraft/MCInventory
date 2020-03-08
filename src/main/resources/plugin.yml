@@ -1,6 +1,6 @@
 name: MCInventory
 main: org.unixminecraft.mcinventory.bukkit.MCInventory
-version: 0.0.1
+version: 0.0.2
 author: unixminecraft
 api-version: 1.15
 
